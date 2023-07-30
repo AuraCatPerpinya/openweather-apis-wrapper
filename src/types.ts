@@ -13,8 +13,7 @@ export const coordinatesSchema = z.object({
 });
 /**
  * Geographical coordinates (latitude, longitude).
- * If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around,
- * please use our Geocoding API.
+ * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
  */
 export type Coordinates = z.infer<typeof coordinatesSchema>;
 

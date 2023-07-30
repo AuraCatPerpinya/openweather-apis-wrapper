@@ -33,8 +33,7 @@ export const ENDPOINTS = {
 
   /**
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
-   * If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around,
-   * please use our Geocoding API.
+   * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {Units} units - Units of measurement. standard, metric and imperial units are available.
    * If you do not use the units parameter, standard units will be applied by default.
    * @param {Lang} lang - You can use this parameter to get the output in your language.

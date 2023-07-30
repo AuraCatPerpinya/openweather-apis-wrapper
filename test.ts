@@ -21,8 +21,7 @@ import {
 
 await load({ examplePath: null, export: true });
 const apiKey = Deno.env.get("OPENWEATHER_API_KEY");
-
-if (!apiKey) throw new Error("'OPENWEATHER_API_KEY' env var is not defined");
+assertExists(apiKey, "'OPENWEATHER_API_KEY' env var is not defined");
 
 const client = new OpenWeatherClient({ apiKey });
 assertInstanceOf(client, OpenWeatherClient);

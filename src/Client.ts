@@ -27,7 +27,7 @@ export class OpenWeatherClient {
 
   /**
    * @param {OpenWeatherClientOptions} options - Options used to instantiate the client.
-   * @param {string} options.apiKey - Your OpenWeatherMap API key.
+   * @param {string} options.apiKey - Your OpenWeather API key.
    */
   constructor(options: OpenWeatherClientOptions) {
     const { apiKey } = openWeatherClientOptionsSchema.parse(options);
@@ -70,8 +70,7 @@ export class OpenWeatherClient {
 
   /**
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
-   * If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around,
-   * please use our Geocoding API.
+   * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {number} [limit] - (optional) Number of the locations in the API response (up to 5 results can be returned in the API response)
    * @returns
    */
@@ -89,8 +88,7 @@ export class OpenWeatherClient {
    * Gives you the current weather data for the given coordinates.
    *
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
-   * If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around,
-   * please use our Geocoding API.
+   * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {Units} units - Units of measurement. standard, metric and imperial units are available.
    * If you do not use the units parameter, standard units will be applied by default.
    * @param {Lang} lang - You can use this parameter to get the output in your language.
