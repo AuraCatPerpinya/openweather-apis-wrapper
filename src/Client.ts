@@ -7,6 +7,7 @@ import {
   CoordinatesByZipOrPostCode,
   CurrentWeather,
   Lang,
+  LocationNameByCoordinates,
   Units,
 } from "./types.ts";
 
@@ -65,6 +66,23 @@ export class OpenWeatherClient {
       APIS.GEO,
       ENDPOINTS.DIRECT_GEOCODING.BY_ZIP_OR_POST_CODE(zipCode),
     ) as CoordinatesByZipOrPostCode;
+  }
+
+  /**
+   * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
+   * If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around,
+   * please use our Geocoding API.
+   * @param {number} [limit] - (optional) Number of the locations in the API response (up to 5 results can be returned in the API response)
+   * @returns
+   */
+  async getLocationNameByCoordinates(
+    coordinates: Coordinates,
+    limit?: number,
+  ): Promise<LocationNameByCoordinates[]> {
+    return await this.sendRequest(
+      APIS.GEO,
+      ENDPOINTS.REVERSE_GEOCODING(coordinates, limit),
+    ) as LocationNameByCoordinates[];
   }
 
   /**

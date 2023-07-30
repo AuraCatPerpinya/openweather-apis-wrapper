@@ -125,14 +125,17 @@ export const currentWeatherSchema = z.object({
 });
 export type CurrentWeather = z.infer<typeof currentWeatherSchema>;
 
+export const localNamesSchema = z
+  .record(z.string())
+  .and(z.object({
+    ascii: z.string().optional(),
+    feature_name: z.string().optional(),
+  }));
+export type LocalNames = z.infer<typeof localNamesSchema>;
+
 export const coordinatesByLocationNameSchema = z.object({
   name: z.string(),
-  local_names: z
-    .record(z.string())
-    .and(z.object({
-      ascii: z.string().optional(),
-      feature_name: z.string().optional(),
-    })).optional(),
+  local_names: localNamesSchema.optional(),
   lat: z.number(),
   lon: z.number(),
   country: z.string(),
@@ -144,9 +147,6 @@ export type CoordinatesByLocationName = z.infer<
 export const arrayCoordinatesByLocationNameSchema = z.array(
   coordinatesByLocationNameSchema,
 );
-export type ArrayCoordinatesByLocationName = z.infer<
-  typeof arrayCoordinatesByLocationNameSchema
->;
 
 export const coordinatesByZipOrPostCodeSchema = z.object({
   zip: z.string(),
@@ -158,3 +158,18 @@ export const coordinatesByZipOrPostCodeSchema = z.object({
 export type CoordinatesByZipOrPostCode = z.infer<
   typeof coordinatesByZipOrPostCodeSchema
 >;
+
+export const locationNameByCoordinatesSchema = z.object({
+  name: z.string(),
+  local_names: localNamesSchema,
+  lat: z.number(),
+  lon: z.number(),
+  country: z.string(),
+  state: z.string().optional(),
+});
+export type LocationNameByCoordinates = z.infer<
+  typeof locationNameByCoordinatesSchema
+>;
+export const arrayLocationNameByCoordinates = z.array(
+  locationNameByCoordinatesSchema,
+);

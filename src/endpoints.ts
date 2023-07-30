@@ -23,6 +23,18 @@ export const ENDPOINTS = {
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
    * If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around,
    * please use our Geocoding API.
+   * @param {number} [limit] - (optional) Number of the locations in the API response (up to 5 results can be returned in the API response)
+   * @returns
+   */
+  REVERSE_GEOCODING: (coordinates: Coordinates, limit?: number) =>
+    `reverse?lat=${coordinates.lat}&lon=${coordinates.lon}${
+      !(isNullOrUndefined(limit)) ? `&limit=${limit}` : ""
+    }`,
+
+  /**
+   * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
+   * If you need the geocoder to automatic convert city names and zip-codes to geo coordinates and the other way around,
+   * please use our Geocoding API.
    * @param {Units} units - Units of measurement. standard, metric and imperial units are available.
    * If you do not use the units parameter, standard units will be applied by default.
    * @param {Lang} lang - You can use this parameter to get the output in your language.
