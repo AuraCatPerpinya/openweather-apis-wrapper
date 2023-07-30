@@ -18,7 +18,7 @@ export type OpenWeatherClientOptions = z.infer<
 >;
 
 /**
- * OpenWeatherMap wrapper client.
+ * OpenWeather APIs wrapper client.
  */
 export class OpenWeatherClient {
   baseAPIUrl = "https://api.openweathermap.org";

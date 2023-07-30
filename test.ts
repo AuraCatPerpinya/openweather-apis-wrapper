@@ -20,14 +20,14 @@ const client = new OpenWeatherClient({
   apiKey,
 });
 
-const geocoding = await client.getCoordinatesByLocationName("chicago", 1);
+const geocoding = await client.getCoordinatesByLocationName("périgord", 1);
 console.log(geocoding);
 arrayCoordinatesByLocationNameSchema.parse(geocoding);
 coordinatesByLocationNameSchema.parse(geocoding[0]);
+
 const currentWeather = await client.getCurrentWeather(
   geocoding[0],
-  undefined,
-  Lang.CATALAN,
+  "metric",
 );
 console.log(currentWeather);
 currentWeatherSchema.parse(currentWeather);
