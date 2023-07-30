@@ -132,7 +132,7 @@ export const coordinatesByLocationNameSchema = z.object({
     .and(z.object({
       ascii: z.string().optional(),
       feature_name: z.string().optional(),
-    })),
+    })).optional(),
   lat: z.number(),
   lon: z.number(),
   country: z.string(),
