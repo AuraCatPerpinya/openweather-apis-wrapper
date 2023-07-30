@@ -5,7 +5,7 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://deno.land/x/openweather_apis_wrapper">Deno</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://github.com/AuraCatPerpinya/openweather-apis-wrapper/issues/new">Issues</a>
+  <a href="https://github.com/AuraCatPerpinya/openweather-apis-wrapper/issues/new">Issues (GitHub)</a>
   <!-- <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span> -->
 </div>
 <br/>
