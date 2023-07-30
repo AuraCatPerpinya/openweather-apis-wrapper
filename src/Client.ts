@@ -114,7 +114,6 @@ export class OpenWeatherClient {
    * @returns Promise<unknown> - A promise that resolves with the API response.
    */
   async sendRequest(api: APIS, endpoint: string): Promise<unknown> {
-    console.log(`${this.baseAPIUrl}/${api}/${endpoint}&appid=${this.apiKey}`);
     const data = await fetch(
       `${this.baseAPIUrl}/${api}/${endpoint}&appid=${this.apiKey}`,
     );
