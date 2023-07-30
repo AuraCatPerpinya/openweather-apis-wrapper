@@ -170,6 +170,6 @@ export const locationNameByCoordinatesSchema = z.object({
 export type LocationNameByCoordinates = z.infer<
   typeof locationNameByCoordinatesSchema
 >;
-export const arrayLocationNameByCoordinates = z.array(
+export const arrayLocationNameByCoordinatesSchema = z.array(
   locationNameByCoordinatesSchema,
 );
