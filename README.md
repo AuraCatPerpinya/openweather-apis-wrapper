@@ -1,19 +1,24 @@
 # openweather-api-wrapper
+
 A simple, TypeScript-first wrapper for the APIs provided by OpenWeather
 
 (Not yet stable or production ready)
 
 ## How to use
+
 For now it has only been tested on Deno.
 
-For the browser and Node.JS, it might work, but you will have to compile it yourself. (and probably change a few things)
+For the browser and Node.JS, it might work, but you will have to compile it
+yourself. (and probably change a few things)
 
-I might find a way to publish it as an NPM module (for Node.JS and perhaps the browser), later.
+I might find a way to publish it as an NPM module (for Node.JS and perhaps the
+browser), later.
 
-To use it on Deno, just import either from the mod.ts file present in the main branch (not recommended),
-or import from one of the releases or tags.
+To use it on Deno, just import either from the mod.ts file present in the main
+branch (not recommended), or import from one of the releases or tags.
 
-I might publish it on [deno.land](deno.land) and maybe some other platforms like [nest.land](nest.land)
+I might publish it on [deno.land](deno.land) and maybe some other platforms like
+[nest.land](nest.land)
 
 ### Example
 
