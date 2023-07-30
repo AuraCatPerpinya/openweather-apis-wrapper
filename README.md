@@ -1,6 +1,7 @@
 # openweather-api-wrapper
 
-A simple, TypeScript-first wrapper for the APIs provided by OpenWeather
+A simple, TypeScript-first wrapper for the APIs provided by
+[OpenWeather](https://openweathermap.org/)
 
 (Not yet stable or production ready)
 
