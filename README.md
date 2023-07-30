@@ -14,11 +14,19 @@ yourself. (and probably change a few things)
 I might find a way to publish it as an NPM module (for Node.JS and perhaps the
 browser), later.
 
-To use it on Deno, just import either from the mod.ts file present in the main
-branch (not recommended), or import from one of the releases or tags.
+To use it on Deno, you can import it from
+[Deno.land](https://deno.land/x/openweather_apis_wrapper)
 
-I might publish it on [deno.land](deno.land) and maybe some other platforms like
-[nest.land](nest.land)
+For example:
+
+```ts
+import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.1/mod.ts";
+
+// ...your code
+```
+
+You can also import it directly from the GitHub repo, either a branch, or one of
+the tags/releases
 
 ### Example
 
