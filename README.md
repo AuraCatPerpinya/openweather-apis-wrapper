@@ -21,7 +21,7 @@ To use it on Deno, you can import it from
 For example:
 
 ```ts
-import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.1/mod.ts";
+import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.1.1/mod.ts";
 
 // ...your code
 ```
