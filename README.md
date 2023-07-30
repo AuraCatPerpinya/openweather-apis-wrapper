@@ -1,4 +1,14 @@
-# openweather-api-wrapper
+# openweather-apis-wrapper
+
+<div align="left">
+  <a href="https://deno.land/x/openweather_apis_wrapper/mod.ts">Documentation</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://deno.land/x/openweather_apis_wrapper">Deno</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://github.com/AuraCatPerpinya/openweather-apis-wrapper/issues/new">Issues</a>
+  <!-- <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span> -->
+</div>
+<br/>
 
 A simple, TypeScript-first wrapper for the APIs provided by
 [OpenWeather](https://openweathermap.org/)
