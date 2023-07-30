@@ -1,3 +1,4 @@
+import { z } from "../deps.ts";
 import { APIS } from "./apis.ts";
 import { ENDPOINTS } from "./endpoints.ts";
 import {
@@ -8,16 +9,20 @@ import {
   Lang,
   Units,
 } from "./types.ts";
-export interface OpenWeatherClientOptions {
-  apiKey: string;
-}
+
+export const openWeatherClientOptionsSchema = z.object({
+  apiKey: z.string(),
+});
+export type OpenWeatherClientOptions = z.infer<
+  typeof openWeatherClientOptionsSchema
+>;
 
 export class OpenWeatherClient {
   baseAPIUrl = "https://api.openweathermap.org";
   apiKey: string;
 
   constructor(options: OpenWeatherClientOptions) {
-    const { apiKey } = options;
+    const { apiKey } = openWeatherClientOptionsSchema.parse(options);
     this.apiKey = apiKey;
   }
 
