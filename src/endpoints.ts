@@ -34,9 +34,9 @@ export const ENDPOINTS = {
   /**
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
    * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
-   * @param {Units} units - Units of measurement. standard, metric and imperial units are available.
+   * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
    * If you do not use the units parameter, standard units will be applied by default.
-   * @param {Lang} lang - You can use this parameter to get the output in your language.
+   * @param {Lang} [lang] - (optional) You can use this parameter to get the output in your language.
    * @returns string
    */
   CURRENT_WEATHER: (

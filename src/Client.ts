@@ -24,9 +24,11 @@ export type OpenWeatherClientOptions = z.infer<
  */
 export class OpenWeatherClient {
   baseAPIUrl = "https://api.openweathermap.org";
+  /** Your OpenWeather API key. */
   apiKey: string;
 
   /**
+   * OpenWeather APIs wrapper client.
    * @param {OpenWeatherClientOptions} options - Options used to instantiate the client.
    * @param {string} options.apiKey - Your OpenWeather API key.
    */
@@ -90,9 +92,9 @@ export class OpenWeatherClient {
    *
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
    * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
-   * @param {Units} units - Units of measurement. standard, metric and imperial units are available.
+   * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
    * If you do not use the units parameter, standard units will be applied by default.
-   * @param {Lang} lang - You can use this parameter to get the output in your language.
+   * @param {Lang} [lang] - (optional) You can use this parameter to get the output in your language.
    * @returns Promise<{@link CurrentWeather}>
    */
   async getCurrentWeather(
@@ -131,7 +133,7 @@ export class OpenWeatherClient {
   /**
    * @private
    * @param {APIS} api
-   * @param endpoint
+   * @param {string} endpoint
    * @returns Promise<unknown> - A promise that resolves with the API response.
    */
   async sendRequest(api: APIS, endpoint: string): Promise<unknown> {
