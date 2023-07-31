@@ -31,7 +31,7 @@ To use it on Deno, you can import it from
 For example:
 
 ```ts
-import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.1.1/mod.ts";
+import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.2/mod.ts";
 
 // ...your code
 ```
@@ -42,6 +42,8 @@ the tags/releases
 ### Example
 
 ```ts
+import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.2/mod.ts";
+
 // Here we instantiate the client :)
 // Make sure your API key is kept very secret!!
 const client = new OpenWeatherClient({ apiKey: "Your very secret API key" });
