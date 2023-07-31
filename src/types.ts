@@ -80,6 +80,9 @@ export const currentWeatherSchema = z.object({
     description: z.string(),
     icon: z.string(),
   })),
+  /**
+   * Internal parameter
+   */
   base: z.string(),
   main: z.object({
     temp: z.number(),
@@ -112,14 +115,29 @@ export const currentWeatherSchema = z.object({
   sys: z.object({
     type: z.number().optional(),
     id: z.number().optional(),
-    message: z.string().optional(),
+    message: z.any().optional(),
     country: z.string(),
     sunrise: z.number(),
     sunset: z.number(),
   }),
   timezone: z.number(),
+  /**
+   * City ID.
+   *
+   * Please note that built-in geocoder functionality has been deprecated.
+   * Learn more {@link https://openweathermap.org/current#builtin | here}.
+   */
   id: z.number(),
+  /**
+   * City name.
+   *
+   * Please note that built-in geocoder functionality has been deprecated.
+   * Learn more {@link https://openweathermap.org/current#builtin | here}.
+   */
   name: z.string(),
+  /**
+   * Internal parameter
+   */
   cod: z.number().optional(),
 });
 export type CurrentWeather = z.infer<typeof currentWeatherSchema>;
