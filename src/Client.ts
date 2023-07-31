@@ -21,6 +21,7 @@ export type OpenWeatherClientOptions = z.infer<
 
 /**
  * OpenWeather APIs wrapper client.
+ * @see {@link https://api.openweathermap.org}
  */
 export class OpenWeatherClient {
   baseAPIUrl = "https://api.openweathermap.org";
@@ -29,6 +30,7 @@ export class OpenWeatherClient {
 
   /**
    * OpenWeather APIs wrapper client.
+   * @see {@link https://api.openweathermap.org}
    * @param {OpenWeatherClientOptions} options - Options used to instantiate the client.
    * @param {string} options.apiKey - Your OpenWeather API key.
    */
@@ -39,6 +41,7 @@ export class OpenWeatherClient {
 
   /**
    * Gives you the coordinates of a location by its name.
+   * @see {@link https://openweathermap.org/api/geocoding-api#direct_name}
    *
    * @param {string} query - City name, state code (only for the US) and country code divided by comma.
    * Please use ISO 3166 country codes.
@@ -57,6 +60,7 @@ export class OpenWeatherClient {
 
   /**
    * Gives you the coordinates of a place by its zip or post code.
+   * @see {@link https://openweathermap.org/api/geocoding-api#direct_zip}
    *
    * @param {string} zipCode - Zip/post code and country code divided by comma.
    * Please use ISO 3166 country codes.
@@ -72,10 +76,11 @@ export class OpenWeatherClient {
   }
 
   /**
+   * @see {@link https://openweathermap.org/api/geocoding-api#reverse}
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
    * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {number} [limit] - (optional) Number of the locations in the API response (up to 5 results can be returned in the API response)
-   * @returns
+   * @returns Promise<{@link LocationNameByCoordinates}[]>
    */
   async getLocationNameByCoordinates(
     coordinates: Coordinates,
@@ -109,6 +114,7 @@ export class OpenWeatherClient {
   }
 
   /**
+   * @see {@link https://openweathermap.org/forecast5}
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
    * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
