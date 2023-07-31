@@ -6,6 +6,7 @@ import {
   CoordinatesByLocationName,
   CoordinatesByZipOrPostCode,
   CurrentWeather,
+  Forecast5days3hours,
   Lang,
   LocationNameByCoordinates,
   Units,
@@ -103,6 +104,28 @@ export class OpenWeatherClient {
       APIS.DATA,
       ENDPOINTS.CURRENT_WEATHER(coordinates, units, lang),
     ) as CurrentWeather;
+  }
+
+  /**
+   * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
+   * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
+   * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
+   * If you do not use the units parameter, standard units will be applied by default.
+   * @param {number} [cnt] - (optional) A number of timestamps, which will be returned in the API response.
+   * {@link https://openweathermap.org/forecast5#limit | Learn more}
+   * @param {Lang} [lang] - You can use this parameter to get the output in your language.
+   * @returns Promise<{@link Forecast5days3hours}>
+   */
+  async getForecast5days3hours(
+    coordinates: Coordinates,
+    cnt?: number,
+    units?: Units,
+    lang?: Lang,
+  ): Promise<Forecast5days3hours> {
+    return await this.sendRequest(
+      APIS.DATA,
+      ENDPOINTS.FORECAST["5DAY3HOUR"](coordinates, cnt, units, lang),
+    ) as Forecast5days3hours;
   }
 
   /**

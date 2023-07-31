@@ -16,6 +16,7 @@ import {
   arrayLocationNameByCoordinatesSchema,
   Coordinates,
   coordinatesByZipOrPostCodeSchema,
+  forecast5days3hoursSchema,
   locationNameByCoordinatesSchema,
 } from "./mod.ts";
 
@@ -89,5 +90,20 @@ describe("client", () => {
       Lang.CATALAN,
     );
     currentWeatherSchema.parse(currentWeather);
+  });
+
+  describe("forecast", () => {
+    assertExists(client);
+
+    it("5 days 3 hours", async () => {
+      assertExists(coordinates);
+      const forecast = await client.getForecast5days3hours(
+        coordinates,
+        5,
+        "metric",
+        Lang.GALICIAN,
+      );
+      forecast5days3hoursSchema.parse(forecast);
+    });
   });
 });

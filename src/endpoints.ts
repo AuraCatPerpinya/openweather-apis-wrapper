@@ -47,4 +47,28 @@ export const ENDPOINTS = {
     `weather?lat=${coordinates.lat}&lon=${coordinates.lon}${
       units ? `&units=${units}` : ""
     }${lang ? `&lang=${lang}` : ""}`,
+
+  FORECAST: {
+    /**
+     * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
+     * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
+     * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
+     * If you do not use the units parameter, standard units will be applied by default.
+     * @param {number} [cnt] - (optional) A number of timestamps, which will be returned in the API response.
+     * {@link https://openweathermap.org/forecast5#limit | Learn more}
+     * @param {Lang} [lang] - (optional) You can use this parameter to get the output in your language.
+     * @returns string
+     */
+    "5DAY3HOUR": (
+      coordinates: Coordinates,
+      cnt?: number,
+      units?: Units,
+      lang?: Lang,
+    ) =>
+      `forecast?lat=${coordinates.lat}&lon=${coordinates.lon}${
+        units ? `&units=${units}` : ""
+      }${!(isNullOrUndefined(cnt)) ? `&cnt=${cnt}` : ""}${
+        lang ? `&lang=${lang}` : ""
+      }`,
+  },
 };

@@ -190,3 +190,85 @@ export type LocationNameByCoordinates = z.infer<
 export const arrayLocationNameByCoordinatesSchema = z.array(
   locationNameByCoordinatesSchema,
 );
+
+export const forecast5days3hoursSchema = z.object({
+  cod: z.string().optional(),
+  message: z.any().optional(),
+  cnt: z.number(),
+  list: z.array(z.object({
+    dt: z.number(),
+    main: z.object({
+      temp: z.number(),
+      feels_like: z.number(),
+      temp_min: z.number(),
+      temp_max: z.number(),
+      pressure: z.number(),
+      sea_level: z.number().optional(),
+      grnd_level: z.number().optional(),
+      humidity: z.number(),
+      temp_kf: z.number().optional(),
+    }),
+    weather: z.array(z.object({
+      id: z.number(),
+      main: z.string(),
+      description: z.string(),
+      icon: z.string(),
+    })),
+    clouds: z.object({
+      all: z.number(),
+    }),
+    wind: z.object({
+      speed: z.number(),
+      deg: z.number(),
+      gust: z.number().optional(),
+    }),
+    visibility: z.number(),
+    /**
+     * Probability of precipitation.
+     * The values of the parameter vary between 0 and 1, where 0 is equal to 0%, 1 is equal to 100%
+     */
+    pop: z.number(),
+    rain: z.object({
+      "3h": z.number().optional(),
+    }).optional(),
+    snow: z.object({
+      "3h": z.number().optional(),
+    }).optional(),
+    sys: z.object({
+      /**
+       * Part of the day (n - night, d - day)
+       */
+      pop: z.string().optional(),
+    }),
+    dt_txt: z.string(),
+  })),
+  city: z.object({
+    /**
+     * City ID.
+     *
+     * Please note that built-in geocoder functionality has been deprecated.
+     * Learn more {@link https://openweathermap.org/forecast5#builtin | here}.
+     */
+    id: z.number(),
+    /**
+     * City name.
+     *
+     * Please note that built-in geocoder functionality has been deprecated.
+     * Learn more {@link https://openweathermap.org/forecast5#builtin | here}.
+     */
+    name: z.string(),
+    coord: coordinatesSchema,
+    /**
+     * Country code (GB, JP etc.).
+     *
+     * Please note that built-in geocoder functionality has been deprecated.
+     * Learn more {@link https://openweathermap.org/forecast5#builtin | here}.
+     */
+    country: z.string(),
+    population: z.number(),
+    timezone: z.number(),
+    sunrise: z.number(),
+    sunset: z.number(),
+  }),
+});
+export type Forecast5days3hours = z.infer<typeof forecast5days3hoursSchema>;
