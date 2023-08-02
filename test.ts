@@ -5,20 +5,17 @@ import {
   assertInstanceOf,
 } from "https://deno.land/std@0.196.0/assert/mod.ts";
 import { describe, it } from "https://deno.land/std@0.196.0/testing/bdd.ts";
+import { OpenWeatherClient } from "./src/Client.ts";
+import { Coordinates, Lang } from "./src/types.ts";
 import {
   arrayCoordinatesByLocationNameSchema,
-  coordinatesByLocationNameSchema,
-  Lang,
-  OpenWeatherClient,
-} from "./src/mod.ts";
-import { currentWeatherSchema } from "./src/types.ts";
-import {
   arrayLocationNameByCoordinatesSchema,
-  Coordinates,
+  coordinatesByLocationNameSchema,
   coordinatesByZipOrPostCodeSchema,
+  currentWeatherSchema,
   forecast5days3hoursSchema,
   locationNameByCoordinatesSchema,
-} from "./mod.ts";
+} from "./test_schemas.ts";
 
 await load({ examplePath: null, export: true });
 const apiKey = Deno.env.get("OPENWEATHER_API_KEY");
