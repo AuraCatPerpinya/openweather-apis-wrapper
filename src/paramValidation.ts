@@ -83,8 +83,8 @@ export const parameterValidation = {
   /** Validate lang parameter */
   validateLang(lang: unknown): void | never {
     if (
-      (!isNullOrUndefined(lang) && typeof lang !== "string") ||
-      !langValues.includes(lang as Lang)
+      (!isNullOrUndefined(lang) && (typeof lang !== "string" ||
+        !langValues.includes(lang as Lang)))
     ) {
       throw new OpenWeatherError(
         "Invalid optional 'lang' parameter. Must be a valid member of the Lang enum",
