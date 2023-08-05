@@ -15,6 +15,8 @@ import {
 export interface OpenWeatherClientOptions {
   /** Your OpenWeather API key. */
   apiKey: string;
+  /** (optional) Custom url to use for sending requests to the API. */
+  apiUrl?: string;
 }
 
 /**
@@ -22,7 +24,15 @@ export interface OpenWeatherClientOptions {
  * @see {@link https://api.openweathermap.org}
  */
 export class OpenWeatherClient {
-  baseAPIUrl = "https://api.openweathermap.org";
+  /** The default url for the OpenWeather API. */
+  static baseAPIUrl = "https://api.openweathermap.org";
+  /**
+   * The url to use for the OpenWeather API.
+   *
+   * By default it uses {@link OpenWeatherClient.baseAPIUrl} (https://api.openweathermap.org),
+   * but you can customize it using {@link OpenWeatherClientOptions.apiUrl}
+   */
+  apiUrl = OpenWeatherClient.baseAPIUrl;
   /** Your OpenWeather API key. */
   apiKey: string;
 
@@ -31,14 +41,15 @@ export class OpenWeatherClient {
    * @see {@link https://api.openweathermap.org}
    * @param {OpenWeatherClientOptions} options - Options used to instantiate the client.
    * @param {string} options.apiKey - Your OpenWeather API key.
+   * @param {string} [options.apiUrl] - (optional) Custom url to use for sending requests to the API.
    */
   constructor(options: OpenWeatherClientOptions) {
     parameterValidation.validateClientOptions(options);
 
-    this.apiKey = options.apiKey;
-    const { apiKey } = options;
+    const { apiKey, apiUrl } = options;
 
     this.apiKey = apiKey;
+    if (apiUrl) this.apiUrl = apiUrl;
   }
 
   /**
@@ -163,7 +174,7 @@ export class OpenWeatherClient {
    */
   async sendRequest(api: APIS, endpoint: string): Promise<unknown> {
     const data = await fetch(
-      `${this.baseAPIUrl}/${api}/${endpoint}&appid=${this.apiKey}`,
+      `${this.apiUrl}/${api}/${endpoint}&appid=${this.apiKey}`,
     );
     if (data.ok) {
       return await data.json();

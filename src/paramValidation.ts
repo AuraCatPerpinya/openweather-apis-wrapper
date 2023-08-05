@@ -23,6 +23,12 @@ export const parameterValidation = {
         "Invalid 'options.apiKey' parameter. Is required and must be a string",
       );
     }
+
+    if ("apiUrl" in options! && typeof options.apiUrl !== "string") {
+      throw new OpenWeatherError(
+        "Invalid optional 'options.apiUrl' parameter. Must be a string",
+      );
+    }
   },
   /** Validate query parameter */
   validateQuery(query: unknown): void | never {
