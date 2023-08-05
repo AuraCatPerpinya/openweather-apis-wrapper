@@ -1,4 +1,3 @@
-import { z } from "../deps.ts";
 import { APIS } from "./apis.ts";
 import { ENDPOINTS } from "./endpoints.ts";
 import { parameterValidation } from "./paramValidation.ts";
@@ -13,13 +12,10 @@ import {
   Units,
 } from "./types.ts";
 
-export const openWeatherClientOptionsSchema = z.object({
-  apiKey: z.string(),
-});
-export type OpenWeatherClientOptions = z.infer<
-  typeof openWeatherClientOptionsSchema
->;
-/** @private */
+export interface OpenWeatherClientOptions {
+  /** Your OpenWeather API key. */
+  apiKey: string;
+}
 
 /**
  * OpenWeather APIs wrapper client.

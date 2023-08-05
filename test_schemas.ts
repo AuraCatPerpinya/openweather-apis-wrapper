@@ -1,4 +1,4 @@
-import { z } from "./deps.ts";
+import { z } from "./deps_test.ts";
 import { Lang } from "./src/types.ts";
 
 // These schemas MUST match the types in ./src/types.ts, or vice-versa
