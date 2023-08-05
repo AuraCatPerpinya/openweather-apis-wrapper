@@ -1,6 +1,7 @@
 import { z } from "../deps.ts";
 import { APIS } from "./apis.ts";
 import { ENDPOINTS } from "./endpoints.ts";
+import { parameterValidation } from "./paramValidation.ts";
 import {
   Coordinates,
   CoordinatesByLocationName,
@@ -18,6 +19,7 @@ export const openWeatherClientOptionsSchema = z.object({
 export type OpenWeatherClientOptions = z.infer<
   typeof openWeatherClientOptionsSchema
 >;
+/** @private */
 
 /**
  * OpenWeather APIs wrapper client.
@@ -35,7 +37,11 @@ export class OpenWeatherClient {
    * @param {string} options.apiKey - Your OpenWeather API key.
    */
   constructor(options: OpenWeatherClientOptions) {
-    const { apiKey } = openWeatherClientOptionsSchema.parse(options);
+    parameterValidation.validateClientOptions(options);
+
+    this.apiKey = options.apiKey;
+    const { apiKey } = options;
+
     this.apiKey = apiKey;
   }
 
@@ -52,6 +58,9 @@ export class OpenWeatherClient {
     query: string,
     limit?: number,
   ): Promise<CoordinatesByLocationName[]> {
+    parameterValidation.validateQuery(query);
+    parameterValidation.validateLimit(limit);
+
     return await this.sendRequest(
       APIS.GEO,
       ENDPOINTS.DIRECT_GEOCODING.BY_LOCATION_NAME(query, limit),
@@ -69,6 +78,8 @@ export class OpenWeatherClient {
   async getCoordinatesByZipOrPostCode(
     zipCode: string,
   ): Promise<CoordinatesByZipOrPostCode> {
+    parameterValidation.validateZipCode(zipCode);
+
     return await this.sendRequest(
       APIS.GEO,
       ENDPOINTS.DIRECT_GEOCODING.BY_ZIP_OR_POST_CODE(zipCode),
@@ -86,6 +97,9 @@ export class OpenWeatherClient {
     coordinates: Coordinates,
     limit?: number,
   ): Promise<LocationNameByCoordinates[]> {
+    parameterValidation.validateCoordinates(coordinates);
+    parameterValidation.validateLimit(limit);
+
     return await this.sendRequest(
       APIS.GEO,
       ENDPOINTS.REVERSE_GEOCODING(coordinates, limit),
@@ -107,6 +121,10 @@ export class OpenWeatherClient {
     units?: Units,
     lang?: Lang,
   ): Promise<CurrentWeather> {
+    parameterValidation.validateCoordinates(coordinates);
+    parameterValidation.validateUnits(units);
+    parameterValidation.validateLang(lang);
+
     return await this.sendRequest(
       APIS.DATA,
       ENDPOINTS.CURRENT_WEATHER(coordinates, units, lang),
@@ -130,6 +148,11 @@ export class OpenWeatherClient {
     units?: Units,
     lang?: Lang,
   ): Promise<Forecast5days3hours> {
+    parameterValidation.validateCoordinates(coordinates);
+    parameterValidation.validateCnt(cnt);
+    parameterValidation.validateUnits(units);
+    parameterValidation.validateLang(lang);
+
     return await this.sendRequest(
       APIS.DATA,
       ENDPOINTS.FORECAST["5DAY3HOUR"](coordinates, cnt, units, lang),

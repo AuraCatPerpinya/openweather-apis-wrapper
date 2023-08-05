@@ -1,10 +1,12 @@
-import { load } from "https://deno.land/std@0.196.0/dotenv/mod.ts";
 import {
   assert,
   assertExists,
   assertInstanceOf,
-} from "https://deno.land/std@0.196.0/assert/mod.ts";
-import { describe, it } from "https://deno.land/std@0.196.0/testing/bdd.ts";
+  assertThrows,
+  describe,
+  it,
+  load,
+} from "./deps_test.ts";
 import { OpenWeatherClient } from "./src/Client.ts";
 import { Coordinates, Lang } from "./src/types.ts";
 import {
@@ -16,6 +18,8 @@ import {
   forecast5days3hoursSchema,
   locationNameByCoordinatesSchema,
 } from "./test_schemas.ts";
+import { parameterValidation } from "./src/paramValidation.ts";
+import { OpenWeatherError } from "./src/customError.ts";
 
 await load({ examplePath: null, export: true });
 const apiKey = Deno.env.get("OPENWEATHER_API_KEY");
@@ -23,6 +27,95 @@ assertExists(apiKey, "'OPENWEATHER_API_KEY' env var is not defined");
 
 const client = new OpenWeatherClient({ apiKey });
 assertInstanceOf(client, OpenWeatherClient);
+
+describe("parameter validation", () => {
+  it("client options", () => {
+    assertThrows(() => parameterValidation.validateClientOptions(undefined)),
+      OpenWeatherError,
+      "options";
+    assertThrows(
+      () => parameterValidation.validateClientOptions({}),
+      OpenWeatherError,
+      "options.apiKey",
+    );
+    assertThrows(
+      () => parameterValidation.validateClientOptions({ apiKey: 123 }),
+      OpenWeatherError,
+      "options.apiKey",
+    );
+  });
+  it("query", () => {
+    assertThrows(
+      () => parameterValidation.validateQuery(123),
+      OpenWeatherError,
+      "query",
+    );
+  });
+  it("zipCode", () => {
+    assertThrows(
+      () => parameterValidation.validateZipCode(123),
+      OpenWeatherError,
+      "zipCode",
+    );
+  });
+  it("coordinates", () => {
+    assertThrows(
+      () => parameterValidation.validateCoordinates(123),
+      OpenWeatherError,
+      "coordinates",
+    );
+    assertThrows(
+      () =>
+        parameterValidation.validateCoordinates({
+          lat: "string",
+          lon: 123,
+        }),
+      OpenWeatherError,
+      "coordinates",
+    );
+    assertThrows(
+      () =>
+        parameterValidation.validateCoordinates({
+          lat: 123,
+          lon: "string",
+        }),
+      OpenWeatherError,
+      "coordinates",
+    );
+  });
+  it("limit", () => {
+    assertThrows(
+      () => parameterValidation.validateLimit("string"),
+      "limit",
+    );
+    assertThrows(
+      () => parameterValidation.validateLimit(1.5),
+      OpenWeatherError,
+      "limit",
+    );
+  });
+  it("cnt", () => {
+    assertThrows(
+      () => parameterValidation.validateCnt("hi"),
+      OpenWeatherError,
+      "cnt",
+    );
+  });
+  it("lang", () => {
+    assertThrows(
+      () => parameterValidation.validateLang({}),
+      OpenWeatherError,
+      "lang",
+    );
+  });
+  it("units", () => {
+    assertThrows(
+      () => parameterValidation.validateUnits("imperialllll"),
+      OpenWeatherError,
+      "units",
+    );
+  });
+});
 
 describe("client", () => {
   let coordinates: Coordinates;
