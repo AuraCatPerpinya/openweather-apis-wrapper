@@ -17,6 +17,14 @@ export interface OpenWeatherClientOptions {
   apiKey: string;
   /** (optional) Custom url to use for sending requests to the API. */
   apiUrl?: string;
+  defaults?: {
+    /** (optional) "standard", "metric" or "imperial". The default units to use in certain methods. */
+    units?: Units;
+    /** (optional) The default language to use in certain methods. */
+    lang?: Lang;
+    /** (optional) The default coordinates to use in certain methods */
+    coordinates?: Coordinates;
+  };
 }
 
 /**
@@ -36,6 +44,15 @@ export class OpenWeatherClient {
   /** Your OpenWeather API key. */
   apiKey: string;
 
+  defaults: {
+    /** (optional) "standard", "metric" or "imperial". The default units to use in certain methods. */
+    units?: Units;
+    /** (optional) The default language to use in certain methods. */
+    lang?: Lang;
+    /** (optional) The default coordinates to use in certain methods */
+    coordinates?: Coordinates;
+  } = {};
+
   /**
    * OpenWeather APIs wrapper client.
    * @see {@link https://api.openweathermap.org}
@@ -46,10 +63,17 @@ export class OpenWeatherClient {
   constructor(options: OpenWeatherClientOptions) {
     parameterValidation.validateClientOptions(options);
 
-    const { apiKey, apiUrl } = options;
+    const { apiKey, apiUrl, defaults } = options;
 
     this.apiKey = apiKey;
     if (apiUrl) this.apiUrl = apiUrl;
+    if (defaults) {
+      if (defaults.units) this.defaults.units = defaults.units;
+      if (defaults.lang) this.defaults.lang = defaults.lang;
+      if (defaults.coordinates) {
+        this.defaults.coordinates = defaults.coordinates;
+      }
+    }
   }
 
   /**
@@ -96,20 +120,28 @@ export class OpenWeatherClient {
   /**
    * @see {@link https://openweathermap.org/api/geocoding-api#reverse}
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
-   * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
+   * (optional if {@link OpenWeatherClient.defaults.coordinates} is set)
+
+   * Use {@link OpenWeatherClient.getCoordinatesByLocationName()} or {@link OpenWeatherClient.getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {number} [limit] - (optional) Number of the locations in the API response (up to 5 results can be returned in the API response)
    * @returns Promise<{@link LocationNameByCoordinates}[]>
    */
   async getLocationNameByCoordinates(
-    coordinates: Coordinates,
+    coordinates?: Coordinates,
     limit?: number,
   ): Promise<LocationNameByCoordinates[]> {
-    parameterValidation.validateCoordinates(coordinates);
+    parameterValidation.validateCoordinates(
+      coordinates,
+      this.defaults.coordinates,
+    );
     parameterValidation.validateLimit(limit);
 
     return await this.sendRequest(
       APIS.GEO,
-      ENDPOINTS.REVERSE_GEOCODING(coordinates, limit),
+      ENDPOINTS.REVERSE_GEOCODING(
+        coordinates ?? this.defaults.coordinates!,
+        limit,
+      ),
     ) as LocationNameByCoordinates[];
   }
 
@@ -117,31 +149,42 @@ export class OpenWeatherClient {
    * Gives you the current weather data for the given coordinates.
    *
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
-   * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
+   * (optional if {@link OpenWeatherClient.defaults.coordinates} is set)
+
+   * Use {@link OpenWeatherClient.getCoordinatesByLocationName()} or {@link OpenWeatherClient.getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
    * If you do not use the units parameter, standard units will be applied by default.
    * @param {Lang} [lang] - (optional) You can use this parameter to get the output in your language.
    * @returns Promise<{@link CurrentWeather}>
    */
   async getCurrentWeather(
-    coordinates: Coordinates,
+    coordinates?: Coordinates,
     units?: Units,
     lang?: Lang,
   ): Promise<CurrentWeather> {
-    parameterValidation.validateCoordinates(coordinates);
+    parameterValidation.validateCoordinates(
+      coordinates,
+      this.defaults.coordinates,
+    );
     parameterValidation.validateUnits(units);
     parameterValidation.validateLang(lang);
 
     return await this.sendRequest(
       APIS.DATA,
-      ENDPOINTS.CURRENT_WEATHER(coordinates, units, lang),
+      ENDPOINTS.CURRENT_WEATHER(
+        coordinates ?? this.defaults.coordinates!,
+        units ?? this.defaults.units,
+        lang ?? this.defaults.lang,
+      ),
     ) as CurrentWeather;
   }
 
   /**
    * @see {@link https://openweathermap.org/forecast5}
    * @param {Coordinates} coordinates - Geographical coordinates (latitude, longitude).
-   * Use {@link OpenWeatherClient#getCoordinatesByLocationName()} or {@link OpenWeatherClient#getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
+   * (optional if {@link OpenWeatherClient.defaults.coordinates} is set)
+
+   * Use {@link OpenWeatherClient.getCoordinatesByLocationName()} or {@link OpenWeatherClient.getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
    * If you do not use the units parameter, standard units will be applied by default.
    * @param {number} [cnt] - (optional) A number of timestamps, which will be returned in the API response.
@@ -150,19 +193,27 @@ export class OpenWeatherClient {
    * @returns Promise<{@link Forecast5days3hours}>
    */
   async getForecast5days3hours(
-    coordinates: Coordinates,
+    coordinates?: Coordinates,
     cnt?: number,
     units?: Units,
     lang?: Lang,
   ): Promise<Forecast5days3hours> {
-    parameterValidation.validateCoordinates(coordinates);
+    parameterValidation.validateCoordinates(
+      coordinates,
+      this.defaults.coordinates,
+    );
     parameterValidation.validateCnt(cnt);
     parameterValidation.validateUnits(units);
     parameterValidation.validateLang(lang);
 
     return await this.sendRequest(
       APIS.DATA,
-      ENDPOINTS.FORECAST["5DAY3HOUR"](coordinates, cnt, units, lang),
+      ENDPOINTS.FORECAST["5DAY3HOUR"](
+        coordinates ?? this.defaults.coordinates!,
+        cnt,
+        units ?? this.defaults.units,
+        lang ?? this.defaults.lang,
+      ),
     ) as Forecast5days3hours;
   }
 

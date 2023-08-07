@@ -1,5 +1,5 @@
 import { OpenWeatherError } from "./customError.ts";
-import { Lang } from "./types.ts";
+import { Coordinates, Lang } from "./types.ts";
 import { isNullOrUndefined } from "./utils.ts";
 
 /** @private */
@@ -29,6 +29,36 @@ export const parameterValidation = {
         "Invalid optional 'options.apiUrl' parameter. Must be a string",
       );
     }
+
+    if ("defaults" in options!) {
+      if (
+        typeof options.defaults !== "object" || Array.isArray(options.defaults)
+      ) {
+        throw new OpenWeatherError(
+          "Invalid optional 'options.defaults' parameter. Must be an object",
+        );
+      }
+      this.validateUnits(
+        // deno-lint-ignore no-explicit-any
+        (options.defaults as any).units,
+        "Invalid optional 'options.defaults.units' parameter. Must be 'standard', 'metric' or 'imperial'",
+      );
+      this.validateLang(
+        // deno-lint-ignore no-explicit-any
+        (options.defaults as any).lang,
+        "Invalid optional 'options.defaults.lang' parameter. Must be a valid member of the Lang enum",
+      );
+
+      // deno-lint-ignore no-explicit-any
+      if (!isNullOrUndefined((options.defaults as any).coordinates)) {
+        this.validateCoordinates(
+          // deno-lint-ignore no-explicit-any
+          (options.defaults as any).coordinates,
+          undefined,
+          "Invalid optional 'options.defaults.coordinates' parameter. Must be an object with 'lat' and 'lon' properties as numbers",
+        );
+      }
+    }
   },
   /** Validate query parameter */
   validateQuery(query: unknown): void | never {
@@ -47,16 +77,25 @@ export const parameterValidation = {
     }
   },
   /** Validate cooordinates parameter */
-  validateCoordinates(coordinates: unknown): void | never {
-    if (
-      typeof coordinates !== "object" || isNullOrUndefined(coordinates) ||
-      (
-        (!("lat" in coordinates!) || typeof coordinates.lat !== "number") ||
-        (!("lon" in coordinates!) || typeof coordinates.lon !== "number")
-      )
+  validateCoordinates(
+    coordinates: unknown,
+    default_?: Coordinates,
+    message?: string,
+  ): void | never {
+    if (isNullOrUndefined(coordinates) && !default_) {
+      throw new OpenWeatherError(
+        "'coordinates' parameter wasn't provided and no default has been set",
+      );
+    } else if (
+      !isNullOrUndefined(coordinates) && (typeof coordinates !== "object" ||
+        (
+          (!("lat" in coordinates!) || typeof coordinates.lat !== "number") ||
+          (!("lon" in coordinates!) || typeof coordinates.lon !== "number")
+        ))
     ) {
       throw new OpenWeatherError(
-        "Invalid 'coordinates' parameter. Must be an object with 'lat' and 'lon' properties as numbers",
+        message ??
+          "Invalid 'coordinates' parameter. Must be an object with 'lat' and 'lon' properties as numbers",
       );
     }
   },
@@ -81,24 +120,26 @@ export const parameterValidation = {
     }
   },
   /** Validate lang parameter */
-  validateLang(lang: unknown): void | never {
+  validateLang(lang: unknown, message?: string): void | never {
     if (
       (!isNullOrUndefined(lang) && (typeof lang !== "string" ||
         !langValues.includes(lang as Lang)))
     ) {
       throw new OpenWeatherError(
-        "Invalid optional 'lang' parameter. Must be a valid member of the Lang enum",
+        message ??
+          "Invalid optional 'lang' parameter. Must be a valid member of the Lang enum",
       );
     }
   },
   /** Validate units parameter */
-  validateUnits(units: unknown): void | never {
+  validateUnits(units: unknown, message?: string): void | never {
     if (
       !isNullOrUndefined(units) && typeof units === "string" &&
       !(["standard", "metric", "imperial"].includes(units))
     ) {
       throw new OpenWeatherError(
-        "Invalid optional 'units' parameter. Must be 'standard', 'metric' or 'imperial'",
+        message ??
+          "Invalid optional 'units' parameter. Must be 'standard', 'metric' or 'imperial'",
       );
     }
   },

@@ -27,7 +27,15 @@ assertExists(apiKey, "'OPENWEATHER_API_KEY' env var is not defined");
 
 const apiUrl = OpenWeatherClient.baseAPIUrl;
 
-const client = new OpenWeatherClient({ apiKey, apiUrl });
+const client = new OpenWeatherClient({
+  apiKey,
+  apiUrl,
+  defaults: {
+    lang: Lang.CATALAN,
+    units: "metric",
+    coordinates: { lat: 10, lon: 10 },
+  },
+});
 assertInstanceOf(client, OpenWeatherClient);
 
 describe("parameter validation", () => {
@@ -45,6 +53,15 @@ describe("parameter validation", () => {
       OpenWeatherError,
       "options.apiKey",
     );
+    assertThrows(
+      () =>
+        parameterValidation.validateClientOptions({
+          apiKey: "hi",
+          defaults: 999,
+        }),
+      OpenWeatherError,
+      "options.defaults",
+    );
   });
   it("query", () => {
     assertThrows(
@@ -61,6 +78,14 @@ describe("parameter validation", () => {
     );
   });
   it("coordinates", () => {
+    assertThrows(
+      () =>
+        parameterValidation.validateCoordinates(
+          undefined,
+        ),
+      OpenWeatherError,
+      "default",
+    );
     assertThrows(
       () => parameterValidation.validateCoordinates(123),
       OpenWeatherError,
@@ -177,7 +202,7 @@ describe("client", () => {
     assertExists(client);
     assertExists(coordinates);
     const currentWeather = await client.getCurrentWeather(
-      coordinates,
+      undefined,
       "metric",
       Lang.CATALAN,
     );
@@ -192,8 +217,6 @@ describe("client", () => {
       const forecast = await client.getForecast5days3hours(
         coordinates,
         5,
-        "metric",
-        Lang.GALICIAN,
       );
       forecast5days3hoursSchema.parse(forecast);
     });
