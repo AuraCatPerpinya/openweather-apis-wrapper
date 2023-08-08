@@ -126,6 +126,7 @@ export class OpenWeatherClient {
    * @see {@link https://openweathermap.org/api/geocoding-api#direct_name}
    *
    * @param {string} query - City name, state code (only for the US) and country code divided by comma.
+
    * Please use ISO 3166 country codes.
    * @param {number} [limit] - (optional) Number of the locations in the API response (up to 5 results can be returned in the API response)
    * @returns Promise<{@link CoordinatesByLocationName}[]>
@@ -148,6 +149,7 @@ export class OpenWeatherClient {
    * @see {@link https://openweathermap.org/api/geocoding-api#direct_zip}
    *
    * @param {string} zipCode - Zip/post code and country code divided by comma.
+
    * Please use ISO 3166 country codes.
    * @returns Promise<{@link CoordinatesByZipOrPostCode}>
    */
@@ -198,6 +200,7 @@ export class OpenWeatherClient {
 
    * Use {@link OpenWeatherClient.getCoordinatesByLocationName()} or {@link OpenWeatherClient.getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
+
    * If you do not use the units parameter, standard units will be applied by default.
    * @param {Lang} [lang] - (optional) You can use this parameter to get the output in your language.
    * @returns Promise<{@link CurrentWeather}>
@@ -231,10 +234,11 @@ export class OpenWeatherClient {
 
    * Use {@link OpenWeatherClient.getCoordinatesByLocationName()} or {@link OpenWeatherClient.getCoordinatesByZipOrPostCode()} to get the coordinates of a place.
    * @param {Units} [units] - (optional) Units of measurement. standard, metric and imperial units are available.
+
    * If you do not use the units parameter, standard units will be applied by default.
    * @param {number} [cnt] - (optional) A number of timestamps, which will be returned in the API response.
    * {@link https://openweathermap.org/forecast5#limit | Learn more}
-   * @param {Lang} [lang] - You can use this parameter to get the output in your language.
+   * @param {Lang} [lang] - (optional) You can use this parameter to get the output in your language.
    * @returns Promise<{@link Forecast5days3hours}>
    */
   async getForecast5days3hours(
@@ -263,6 +267,10 @@ export class OpenWeatherClient {
   }
 
   /**
+   * Use it only if really needed.
+   *
+   * Check first if there is not already a method that suits your needs.
+   *
    * @private
    * @param {APIS} api
    * @param {string} endpoint
