@@ -11,6 +11,7 @@ import {
   LocationNameByCoordinates,
   Units,
 } from "./types.ts";
+import { isNullOrUndefined } from "./utils.ts";
 
 export interface OpenWeatherClientOptions {
   /** Your OpenWeather API key. */
@@ -74,6 +75,50 @@ export class OpenWeatherClient {
         this.defaults.coordinates = defaults.coordinates;
       }
     }
+  }
+
+  /**
+   * Set the default units to use in certain methods.
+   *
+   * Set to undefined or null if you want to remove the default units.
+   *
+   * @param {Units} [units] - (optional) "standard", "metric" or "imperial". The default units to use in certain methods.
+   * @returns this
+   */
+  setDefaultUnits(units?: Units): this {
+    parameterValidation.validateUnits(units);
+    this.defaults.units = units;
+    return this;
+  }
+
+  /**
+   * Set the default language to use in certain methods.
+   *
+   * Set to undefined or null if you want to remove the default language.
+   *
+   * @param  {Lang} [lang] - (optional)
+   * @returns this
+   */
+  setDefaultLang(lang?: Lang): this {
+    parameterValidation.validateLang(lang);
+    this.defaults.lang = lang;
+    return this;
+  }
+
+  /**
+   * Set the default coordinates to use in certain methods.
+   *
+   * Set to undefined or null if you want to remove the default coordinates.
+   *
+   * @param {Coordinates} [coordinates] - (optional)
+   * @returns this
+   */
+  setDefaultCoordinates(coordinates?: Coordinates): this {
+    if (!isNullOrUndefined(coordinates)) {
+      parameterValidation.validateCoordinates(coordinates);
+    }
+    this.defaults.coordinates = coordinates;
+    return this;
   }
 
   /**
