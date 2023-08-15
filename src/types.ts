@@ -11,8 +11,8 @@ export type Units = "standard" | "metric" | "imperial";
  */
 
 export interface Coordinates {
-  lon: number;
   lat: number;
+  lon: number;
 }
 
 /**

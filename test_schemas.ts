@@ -6,8 +6,8 @@ import { Lang } from "./src/types.ts";
 export const unitsSchema = z.enum(["standard", "metric", "imperial"]);
 
 export const coordinatesSchema = z.object({
-  lon: z.number(),
   lat: z.number(),
+  lon: z.number(),
 });
 
 export const langSchema = z.nativeEnum(Lang);
