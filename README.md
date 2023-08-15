@@ -34,12 +34,12 @@ the tags/releases
 
 ### Examples
 
-(The examples are not exhaustive. They might not show all the possibilities nor
-all the available methods)
+**(The examples below are not exhaustive. They might not show all the
+possibilities nor all the available methods)**
 
-(Please refer to the
-[documentation](https://deno.land/x/openweather_apis_wrapper/mod.ts) for some
-info)
+**(Please refer to the
+[documentation](https://deno.land/x/openweather_apis_wrapper/mod.ts) for more
+info)**
 
 #### Import
 
