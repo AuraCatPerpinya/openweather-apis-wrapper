@@ -10,7 +10,7 @@
 </div>
 <br/>
 
-A simple, TypeScript-first wrapper for
+A simple, TypeScript-first wrapper for the
 [OpenWeather APIs](https://openweathermap.org/), with (partially) customizable
 caching
 
