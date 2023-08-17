@@ -28,7 +28,7 @@ export interface Caches {
   forecast5days3hours?: Cache<Forecast5days3hours>;
 }
 
-export type OptionalizedCaches = {
+export type NullableCaches = {
   [key in keyof Caches]: Caches[key] | null;
 };
 export type CacheHandlerOptions = {
@@ -36,7 +36,7 @@ export type CacheHandlerOptions = {
    *
    * Set a cache to null (not undefined, null, very important!) to completely disable it.
    */
-  caches?: OptionalizedCaches;
+  caches?: NullableCaches;
 };
 
 export class CacheHandler implements Caches {
