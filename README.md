@@ -44,7 +44,7 @@ info)**
 #### Import
 
 ```ts
-import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.4/mod.ts";
+import { OpenWeatherClient } from "https://deno.land/x/openweather_apis_wrapper@v0.4.3/mod.ts";
 ```
 
 #### Instantiate client
