@@ -24,7 +24,10 @@ export const parameterValidation = {
       );
     }
 
-    if ("apiUrl" in options! && typeof options.apiUrl !== "string") {
+    if (
+      "apiUrl" in options! && !isNullOrUndefined(options.apiUrl) &&
+      typeof options.apiUrl !== "string"
+    ) {
       throw new OpenWeatherError(
         "Invalid optional 'options.apiUrl' parameter. Must be a string",
       );
@@ -32,7 +35,9 @@ export const parameterValidation = {
 
     if ("defaults" in options!) {
       if (
-        typeof options.defaults !== "object" || Array.isArray(options.defaults)
+        !isNullOrUndefined(options.defaults) &&
+        (typeof options.defaults !== "object" ||
+          Array.isArray(options.defaults))
       ) {
         throw new OpenWeatherError(
           "Invalid optional 'options.defaults' parameter. Must be an object",
