@@ -145,13 +145,14 @@ export class OpenWeatherClient {
     parameterValidation.validateQuery(query);
     parameterValidation.validateLimit(limit);
 
-    let data = await this.cacheHandler.coordinatesByLocationName?.get(query);
+    const cacheKey = `${query}${limit}`;
+    let data = await this.cacheHandler.coordinatesByLocationName?.get(cacheKey);
     if (!data) {
       data = await this.sendRequest(
         APIS.GEO,
         ENDPOINTS.DIRECT_GEOCODING.BY_LOCATION_NAME(query, limit),
       ) as CoordinatesByLocationName[];
-      await this.cacheHandler.coordinatesByLocationName?.set(query, data);
+      await this.cacheHandler.coordinatesByLocationName?.set(cacheKey, data);
     }
 
     return data;
@@ -203,9 +204,9 @@ export class OpenWeatherClient {
     parameterValidation.validateLimit(limit);
     if (!coordinates) coordinates = this.defaults.coordinates!;
 
-    const key = `${coordinates.lat}.${coordinates.lon}`;
+    const cacheKey = `${coordinates.lat}${coordinates.lon}${limit}`;
     let data = await this.cacheHandler.locationNameByCoordinates?.get(
-      key,
+      cacheKey,
     );
     if (!data) {
       data = await this.sendRequest(
@@ -215,7 +216,7 @@ export class OpenWeatherClient {
           limit,
         ),
       ) as LocationNameByCoordinates[];
-      await this.cacheHandler.locationNameByCoordinates?.set(key, data);
+      await this.cacheHandler.locationNameByCoordinates?.set(cacheKey, data);
     }
     return data;
   }
@@ -246,8 +247,8 @@ export class OpenWeatherClient {
     parameterValidation.validateLang(lang);
     if (!coordinates) coordinates = this.defaults.coordinates!;
 
-    const key = `${coordinates.lat}.${coordinates.lon}`;
-    let data = await this.cacheHandler.currentWeather?.get(key);
+    const cacheKey = `${coordinates.lat}${coordinates.lon}${units}${lang}`;
+    let data = await this.cacheHandler.currentWeather?.get(cacheKey);
     if (!data) {
       data = await this.sendRequest(
         APIS.DATA,
@@ -257,7 +258,7 @@ export class OpenWeatherClient {
           lang ?? this.defaults.lang,
         ),
       ) as CurrentWeather;
-      await this.cacheHandler.currentWeather?.set(key, data);
+      await this.cacheHandler.currentWeather?.set(cacheKey, data);
     }
     return data;
   }
@@ -291,8 +292,9 @@ export class OpenWeatherClient {
     parameterValidation.validateLang(lang);
     if (!coordinates) coordinates = this.defaults.coordinates!;
 
-    const key = `${coordinates.lat}.${coordinates.lon}`;
-    let data = await this.cacheHandler.forecast5days3hours?.get(key);
+    const cacheKey =
+      `${coordinates.lat}${coordinates.lon}${cnt}${units}${lang}`;
+    let data = await this.cacheHandler.forecast5days3hours?.get(cacheKey);
     if (!data) {
       data = await this.sendRequest(
         APIS.DATA,
@@ -303,7 +305,7 @@ export class OpenWeatherClient {
           lang ?? this.defaults.lang,
         ),
       ) as Forecast5days3hours;
-      await this.cacheHandler.forecast5days3hours?.set(key, data);
+      await this.cacheHandler.forecast5days3hours?.set(cacheKey, data);
     }
 
     return data;
